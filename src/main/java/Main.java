@@ -36,7 +36,7 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-        }, 0, 0);
+        }, 0, 1);
     }
 
     public static void initialEmail(String apiToken, String email) throws IOException {
