@@ -1,0 +1,1 @@
+worker: java -jar build/libs/Chase-Scam-Killer-1.0-all.jar
