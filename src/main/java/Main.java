@@ -13,24 +13,30 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        String apiToken = getSaltToken();
-        String email = MockNeat.threadLocal().emails().get();
-        initialEmail(apiToken, email);
-        String password = MockNeat.threadLocal().passwords().medium().get();
-        emailAndPass(apiToken, email, password);
-        emailAndPass(apiToken, email, password);
-        creditCard(apiToken);
-        bankData(apiToken);
-        document(apiToken);
-        selfie(apiToken);
+    public static void main(String[] args) {
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                // Run the following forever
+                try {
+                    String apiToken = getSaltToken();
+                    String email = MockNeat.threadLocal().emails().get();
+                    initialEmail(apiToken, email);
+                    String password = MockNeat.threadLocal().passwords().medium().get();
+                    emailAndPass(apiToken, email, password);
+                    emailAndPass(apiToken, email, password);
+                    creditCard(apiToken);
+                    bankData(apiToken);
+                    document(apiToken);
+                    selfie(apiToken);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 0);
     }
 
     public static void initialEmail(String apiToken, String email) throws IOException {

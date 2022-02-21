@@ -6,6 +6,14 @@ plugins {
 group 'com.coocoofroggy'
 version '1.0'
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Main'
+        )
+    }
+}
+
 repositories {
     mavenCentral()
 }
