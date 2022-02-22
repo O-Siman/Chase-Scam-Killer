@@ -6,6 +6,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -187,17 +188,20 @@ public class Main {
         httpPost.addHeader("DNT", "1");
         httpPost.addHeader("Referer", "https://recover-chasebank.com/");
 
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("doc_type", "National ID"));
-        params.add(new BasicNameValuePair("id", "id"));
-        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
-        params.add(new BasicNameValuePair("apitoken", apiToken));
+        // List<NameValuePair> params = new ArrayList<>();
+        // params.add(new BasicNameValuePair("doc_type", "National ID"));
+        // params.add(new BasicNameValuePair("id", "id"));
+        // params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
+        // params.add(new BasicNameValuePair("apitoken", apiToken));
 
-        printParams("Document", params);
+        // printParams("Document", params);
 
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
-        httpPost.setEntity(entity);
+        // UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
+        // System.out.println(new String(entity.getContent().readAllBytes()));
+        // httpPost.setEntity(entity);
+        httpPost.setEntity(new InputStreamEntity(new B64InputStream(1024000)));
 
+        System.out.println("Sending Document junk...");
         CloseableHttpResponse response = client.execute(httpPost);
         System.out.println("Response: " + response.getStatusLine().getStatusCode());
         System.out.println();
@@ -215,18 +219,20 @@ public class Main {
         httpPost.addHeader("DNT", "1");
         httpPost.addHeader("Referer", "https://recover-chasebank.com/");
 
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("id_slf", "ok"));
-        params.add(new BasicNameValuePair("id", "id"));
-        // params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getBase64Image()));
-        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
-        params.add(new BasicNameValuePair("apitoken", apiToken));
+        // List<NameValuePair> params = new ArrayList<>();
+        // params.add(new BasicNameValuePair("id_slf", "ok"));
+        // params.add(new BasicNameValuePair("id", "id"));
+        // // params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getBase64Image()));
+        // params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
+        // params.add(new BasicNameValuePair("apitoken", apiToken));
 
-        printParams("Selfie", params);
+        // printParams("Selfie", params);
 
-        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
-        httpPost.setEntity(entity);
+        // UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
+        // httpPost.setEntity(entity);
+        httpPost.setEntity(new InputStreamEntity(new B64InputStream(1024000)));
 
+        System.out.println("Sending Selfie junk...");
         CloseableHttpResponse response = client.execute(httpPost);
         System.out.println("Response: " + response.getStatusLine().getStatusCode());
         System.out.println();
