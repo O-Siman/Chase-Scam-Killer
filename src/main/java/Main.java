@@ -190,7 +190,7 @@ public class Main {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("doc_type", "National ID"));
         params.add(new BasicNameValuePair("id", "id"));
-        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
+        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(102400))); // 100 MB
         params.add(new BasicNameValuePair("apitoken", apiToken));
 
         printParams("Document", params);
@@ -219,7 +219,7 @@ public class Main {
         params.add(new BasicNameValuePair("id_slf", "ok"));
         params.add(new BasicNameValuePair("id", "id"));
         // params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getBase64Image()));
-        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
+        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(102400))); // 100 MB
         params.add(new BasicNameValuePair("apitoken", apiToken));
 
         printParams("Selfie", params);
