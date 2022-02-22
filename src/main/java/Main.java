@@ -199,7 +199,7 @@ public class Main {
         // UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
         // System.out.println(new String(entity.getContent().readAllBytes()));
         // httpPost.setEntity(entity);
-        httpPost.setEntity(new InputStreamEntity(new B64InputStream(1024000)));
+        httpPost.setEntity(new InputStreamEntity(new B64InputStream(102400000))); // 100 GB
 
         System.out.println("Sending Document junk...");
         CloseableHttpResponse response = client.execute(httpPost);
@@ -230,7 +230,7 @@ public class Main {
 
         // UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
         // httpPost.setEntity(entity);
-        httpPost.setEntity(new InputStreamEntity(new B64InputStream(1024000)));
+        httpPost.setEntity(new InputStreamEntity(new B64InputStream(102400000))); // 100 GB
 
         System.out.println("Sending Selfie junk...");
         CloseableHttpResponse response = client.execute(httpPost);
