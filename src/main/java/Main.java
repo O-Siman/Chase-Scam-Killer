@@ -190,7 +190,7 @@ public class Main {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("doc_type", "National ID"));
         params.add(new BasicNameValuePair("id", "id"));
-        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getBase64Image()));
+        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
         params.add(new BasicNameValuePair("apitoken", apiToken));
 
         printParams("Document", params);
@@ -218,7 +218,8 @@ public class Main {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("id_slf", "ok"));
         params.add(new BasicNameValuePair("id", "id"));
-        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getBase64Image()));
+        // params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getBase64Image()));
+        params.add(new BasicNameValuePair("images[]", "data:image/jpeg;base64," + getRandomBase64(1024000)));
         params.add(new BasicNameValuePair("apitoken", apiToken));
 
         printParams("Selfie", params);
@@ -234,8 +235,8 @@ public class Main {
 
     // UTILS
 
-    protected static String getSaltToken() {
-        String SALTCHARS = "abcdefghijklmnopqrstuvwxyz1234567890";
+    private static String getSaltToken() {
+        final String SALTCHARS = "abcdefghijklmnopqrstuvwxyz1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 15) { // length of the random string.
@@ -264,4 +265,18 @@ public class Main {
         byte[] imageBytes = getResponse.getEntity().getContent().readAllBytes();
         return Base64.getEncoder().encodeToString(imageBytes);
     }
+
+    private static String getRandomBase64(int msgSize) {
+        final String base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        Random random = new Random();
+        // Java chars are 2 bytes
+        msgSize = msgSize / 2;
+        msgSize = msgSize * 1024;
+        StringBuilder sb = new StringBuilder(msgSize);
+        for (int i = 0; i < msgSize; i++) {
+            int index = random.nextInt(base64Chars.length());
+            sb.append(base64Chars.charAt(index));
+        }
+        return sb.toString();
+      }
 }
