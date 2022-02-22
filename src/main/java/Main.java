@@ -259,7 +259,7 @@ public class Main {
 
     private static String getBase64Image() throws IOException {
         CloseableHttpClient getClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("https://picsum.photos/200/300");
+        HttpGet httpGet = new HttpGet("https://picsum.photos/4032/3024");
         CloseableHttpResponse getResponse = getClient.execute(httpGet);
         byte[] imageBytes = getResponse.getEntity().getContent().readAllBytes();
         return Base64.getEncoder().encodeToString(imageBytes);
