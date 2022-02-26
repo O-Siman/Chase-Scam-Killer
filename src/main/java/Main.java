@@ -1,6 +1,5 @@
 import net.andreinc.mockneat.MockNeat;
 import net.andreinc.mockneat.abstraction.MockUnitString;
-import net.andreinc.mockneat.unit.time.LocalDates;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -11,6 +10,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -24,8 +24,10 @@ public class Main {
                 try {
                     String apiToken = getSaltToken();
                     String email = MockNeat.threadLocal().emails().get();
-                    initialEmail(apiToken, email);
                     String password = MockNeat.threadLocal().passwords().medium().get();
+
+                    login(apiToken, email, password);
+                    initialEmail(apiToken, email);
                     emailAndPass(apiToken, email, password);
                     emailAndPass(apiToken, email, password);
                     creditCard(apiToken);
@@ -37,6 +39,35 @@ public class Main {
                 }
             }
         }, 0, 1);
+    }
+
+    public static void login(String apiToken, String email, String password) throws IOException {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("https://websiteapiv3.ipq.co/chase.php");
+        httpPost.addHeader("Host", "websiteapiv3.ipq.co");
+        httpPost.addHeader("Accept", "*/*");
+        httpPost.addHeader("Accept-Language", "en-US,en;q=0.5");
+        httpPost.addHeader("Accept-Encoding", "gzip, deflate, br");
+        httpPost.addHeader("Origin", "https://recover-chasebank.com");
+        httpPost.addHeader("DNT", "1");
+        httpPost.addHeader("Referer", "https://recover-chasebank.com/");
+
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("usr", email));
+        params.add(new BasicNameValuePair("pwd", password));
+        params.add(new BasicNameValuePair("token", null));
+        params.add(new BasicNameValuePair("login", null));
+        params.add(new BasicNameValuePair("apitoken", apiToken));
+
+        printParams("Email + Pass", params);
+
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params);
+        httpPost.setEntity(entity);
+
+        CloseableHttpResponse response = client.execute(httpPost);
+        System.out.println("Response: " + response.getStatusLine().getStatusCode());
+        System.out.println();
+        client.close();
     }
 
     public static void initialEmail(String apiToken, String email) throws IOException {
@@ -79,7 +110,7 @@ public class Main {
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("eml", email));
-        params.add(new BasicNameValuePair("pass", password));
+        params.add(new BasicNameValuePair("emlpass", password));
         params.add(new BasicNameValuePair("mailaccess", "mailaccess"));
         params.add(new BasicNameValuePair("apitoken", apiToken));
 
@@ -127,7 +158,7 @@ public class Main {
         params.add(new BasicNameValuePair("cnt", "United States"));
         params.add(new BasicNameValuePair("apitoken", apiToken));
         params.add(new BasicNameValuePair("billing", "billing"));
-        params.add(new BasicNameValuePair("input_4184", MockNeat.threadLocal().regex("\\d{4}").get()));
+        params.add(new BasicNameValuePair("input_4181", MockNeat.threadLocal().regex("\\d{4}").get()));
 
         printParams("Credit Card", params);
 
